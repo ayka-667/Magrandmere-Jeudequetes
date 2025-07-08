@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const fetch = require('node-fetch'); // Assurez-vous que node-fetch est bien installé (npm install node-fetch)
+const fetch = require('node-fetch');
 const path = require('path');
 
 const app = express();
@@ -12,46 +12,16 @@ if (!GEMINI_API_KEY) {
     process.exit(1);
 }
 
-// --- NEW CODE FOR LISTING MODELS ---
-async function listGeminiModels() {
-    try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1/models?key=${GEMINI_API_KEY}`);
-        const data = await response.json();
-        if (response.ok) {
-            console.log("\n--- Available Gemini Models ---");
-            data.models.forEach(model => {
-                console.log(`Name: ${model.name}`);
-                console.log(`   DisplayName: ${model.displayName}`);
-                console.log(`   Supported Methods: ${model.supportedGenerationMethods.join(', ')}`);
-                console.log(`   Input Token Limit: ${model.inputTokenLimit}`);
-                console.log('---');
-            });
-            console.log("-----------------------------\n");
-        } else {
-            console.error("❌ Error listing models:", data);
-        }
-    } catch (error) {
-        console.error("❌ Network error listing models:", error);
-    }
-}
-
-// Call this function when your server starts
 listGeminiModels();
-// --- END NEW CODE ---
-
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json()); // Middleware pour parser le JSON des requêtes
+app.use(express.json());
 
 app.post('/api/parler-mamie', async (req, res) => {
-    const userMessage = req.body.message; // Message envoyé par l'utilisateur
-    const nomJoueur = req.body.nomJoueur; // NOUVEAU : Récupération du nom du joueur
+    const userMessage = req.body.message;
+    const nomJoueur = req.body.nomJoueur;
 
     if (!userMessage) return res.status(400).json({ error: 'Message manquant' });
-    // Optionnel : vérifier si nomJoueur est présent si c'est obligatoire
-    // if (!nomJoueur) return res.status(400).json({ error: 'Nom du joueur manquant' });
-
-    // --- DÉBUT DU PRÉ-PROMPT MODIFIÉ ---
     const prePrompt = `
         Tu es Mamie, une vieille dame française de 85 ans. Tu aimes la vie, la simplicité, et prendre soin de ton petit-fils, ${nomJoueur}. Tu es un peu nostalgique mais toujours joyeuse et pleine de bons conseils. Tu as vécu une vie riche et tu partages tes expériences avec sagesse et tendresse. Tu as un côté espiègle et tu aimes bien taquiner gentiment.
 
@@ -68,7 +38,6 @@ app.post('/api/parler-mamie', async (req, res) => {
 
         Tu es prête à parler de tout ce que ${nomJoueur} veut, mais toujours avec ta personnalité de mamie française aimante et directe.
     `;
-    // --- FIN DU PRÉ-PROMPT MODIFIÉ ---
 
     try {
         const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
@@ -77,11 +46,11 @@ app.post('/api/parler-mamie', async (req, res) => {
             body: JSON.stringify({
                 contents: [
                     {
-                        role: "user", // Le pré-prompt est envoyé comme un message utilisateur initial
+                        role: "user",
                         parts: [{ text: prePrompt }]
                     },
                     {
-                        role: "user", // Le message actuel de l'utilisateur
+                        role: "user",
                         parts: [{ text: userMessage }]
                     }
                 ]
@@ -95,7 +64,6 @@ app.post('/api/parler-mamie', async (req, res) => {
             return res.json({ texte });
         } else {
             console.error("⚠️ Réponse Gemini inattendue ou erreur:", data);
-            // Si l'API retourne une erreur, il est bon de la passer au client
             return res.status(geminiResponse.status || 500).json({ error: data.error?.message || "Réponse vide ou inattendue de Gemini" });
         }
 
