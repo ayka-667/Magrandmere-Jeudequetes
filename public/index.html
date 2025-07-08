@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ma grand-mère - Jeu de quêtes stable</title>
+  <link rel="icon" href="icon/mamie.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="top-bar-actions">
+    <button id="btn-ia-chat" class="btn-ia-chat-flottant">
+      💬 Discuter avec Mamie
+    </button>
+    <button id="btn-theme-toggle" aria-label="Changer le thème" title="Changer le thème">🌙</button>
+  </div>
+
+
+  <div class="container">
+
+    <aside class="menu-quetes">
+      <h2>Quêtes 📝</h2>
+      <div class="boutons-filtres">
+        <button id="btn-a-faire" class="active">À faire</button>
+        <button id="btn-terminees">Terminées</button>
+      </div>
+      <ul id="liste-quetes"></ul>
+      <p id="instruction-quetes" style="text-align:center; font-style:italic; color:#666; margin-top: 20px;">
+        👉 Clique sur une quête pour la commencer
+      </p>
+    </aside>
+
+    <main class="interaction">
+      <div class="grandmere">
+      <img id="mamie-image" src="icon/mamie.png" alt="Grand-mère">
+      </div>
+      <div id="texte-dialogue" class="texte-dialogue">
+        Bonjour mon petit Ayka, que veux-tu faire ?
+      </div>
+
+      <div id="zone-actions" class="zone-actions">
+        <button id="btn-parler">Parlé</button>
+        <button id="btn-accepter" class="hidden">Accepter 🍪</button>
+        <button id="btn-refuser" class="hidden">Refuser ❌</button>
+        <button id="btn-terminer" class="hidden">Terminer la quête ✅</button>
+      </div>
+
+      <div id="gemini-chat-container" class="gemini-chat-container hidden">
+        <div id="chat-conversation" class="chat-conversation">
+        </div>
+        <div class="chat-input-bar">
+          <input type="text" id="chat-input" placeholder="Dis quelque chose à Mamie..." />
+          <button id="send-chat-btn">Envoyer</button>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <div id="popup-nom" class="popup-nom">
+    <div class="popup-contenu">
+      <h2>Comment tu t'appelles ?</h2>
+      <input type="text" id="input-nom" placeholder="Entre ton prénom" />
+      <button id="valider-nom">Valider</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="theme.js"></script>
+</body>
+</html>
