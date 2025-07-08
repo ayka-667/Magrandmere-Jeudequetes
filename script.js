@@ -46,6 +46,44 @@ const quetes = [
     faite: false,
     description: "Mamie veut jouer à pierre-feuille-ciseaux avec toi.",
     type: "miniJeu"
+  },
+  {
+    id: 5,
+    titre: "Donner un câlin à Mamie",
+    faite: false,
+    description: "Un bon gros câlin pour Mamie.",
+    type: "dialogue",
+    dialogues: [
+      "Mamie : Oh, tu viens me faire un câlin ? 💖",
+      "Mamie : Viens ici mon petit ${nomJoueur}, Mamie est toute émue...",
+      "Mamie : Tu sais, un câlin, ça réchauffe le cœur."
+    ]
+  },
+  {
+    id: 6,
+    titre: "Offrir un thé à Mamie",
+    faite: false,
+    description: "Propose un bon thé chaud à Mamie.",
+    type: "choixOuiNon",
+    etapes: [
+      { texte: "Mamie : Tu veux bien me faire un petit thé, mon chéri ? ☕" },
+      {
+        texteOui: "Mamie : Merci ${nomJoueur}, tu es toujours attentionné.",
+        texteNon: "Mamie : Bon, tant pis... je vais me débrouiller."
+      }
+    ]
+  },
+  {
+    id: 7,
+    titre: "Jouer aux cartes avec Mamie",
+    faite: false,
+    description: "Partie de cartes rapide avec Mamie.",
+    type: "dialogue",
+    dialogues: [
+      "Mamie : Tu sais jouer au tarot, ${nomJoueur} ? Non ? Tant pis, on va faire une bataille ! 🃏",
+      "Mamie : Tu gagnes cette manche, bravo !",
+      "Mamie : Bon, Mamie est fatiguée maintenant, on rejouera plus tard."
+    ]
   }
 ];
 
@@ -230,4 +268,7 @@ window.addEventListener("DOMContentLoaded", () => {
       alert("Entre un prénom valide !");
     }
   });
+
+  afficherQuetes();
+  resetZone();
 });
