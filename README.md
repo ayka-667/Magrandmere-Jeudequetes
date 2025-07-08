@@ -45,7 +45,7 @@ sudo npm install -g pm2
 1. **Clone le dépot** sur tno serveur, ou transfère les fichier de ton projet (si tu ne l'as pas déjà fait dans `/var/www/magrandmere`):
 ```
 # Exemple si tu clones directement depuis GitHub sur le serveur
-sudo mkdir -p /var/www/ayka
+sudo mkdir -p /var/www/
 sudo chown $USER:$USER /var/www/ayka # Assure-toi d'avoir les droits
 cd /var/www/ayka
 git clone https://github.com/ton_nom_utilisateur/Mamie-IA.git ma-grand-mere
